@@ -166,7 +166,7 @@ def addCreativeTab(path):
 
 def openTab(path, tab, name):
     print("\n" + "Main Menu > " + os.path.split(os.path.split(path)[0])[1] + " > " + name)
-    menu({"name":"Fonts","function":"openFonts","args":[path,tab,name]},{"name":"Back","function":"creativeTabs","args":[path]})
+    menu({"name":"Fonts","function":"openFonts","args":[path,tab,name]},{"name":"Delete Tab","function":"deletePath","args":[path, path + "/" + tab]},{"name":"Back","function":"creativeTabs","args":[path]})
 
 def openFonts(path, tab, name):
     print("\n" + "Main Menu > " + os.path.split(os.path.split(path)[0])[1] + " > " + name + " > Fonts")
@@ -178,8 +178,20 @@ def openFonts(path, tab, name):
     for font in fonts:
         menuObj.append({"name":font,"function":"openFont","args":[path, tab, name, font]})
     menuObj.append({"name":"Add A Font","function":"addFont","args":[path, tab, name]})
-    menuObj.append({"name":"Back","function":"main"})
+    menuObj.append({"name":"Back","function":"openTab","args":[path, tab, name]})
     menu(*menuObj)
+
+def deletePath(path, delete):
+    print("\n" + "! WARNING ! Deleting can not be undone and may break references to this object")
+    if getBool("\n" + "Are you sure you want to continue | Y/N: "):
+        shutil.rmtree(delete)
+        creativeTabs(path)
+    else:
+        creativeTabs(path)
+
+def openFont(path, tab, name, font):
+    print("\n" + "Main Menu > " + os.path.split(os.path.split(path)[0])[1] + " > " + name + " > Fonts > " + font)
+    menu({"name":"Delete Font","function":"deletePath","args":[path,path + "/" + tab + "/textures/fonts/" + font]},{"name":"Back","function":"openFonts","args":[path, tab, name]})
 
 def addFont(path, tab, name):
     print("\n" + "Main Menu > " + os.path.split(os.path.split(path)[0])[1] + " > " + name + " > Fonts > ADD A FONT")

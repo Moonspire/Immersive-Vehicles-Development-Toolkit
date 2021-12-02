@@ -7,6 +7,7 @@
 # IV help from: Laura
 # Run python file with Python 3
 # Developed on Python 3.8.7
+version = "D-1.0.0"
 
 ###############################
 # Style Guide & Documentation #
@@ -178,9 +179,10 @@ from dearpygui.demo import show_demo
 def main():
     uwid = 0
     global programData
+    global version
     programData["uwids"].append(uwid)
     with dpg.window(label = "Main Menu", width = 400, height = 800, pos = (0, 0)):
-        dpg.add_text("Immersive Vehicles Development Toolkit")
+        dpg.add_text("Immersive Vehicles Development Toolkit - " + version)
         recent = readJSON("recent")
         if "JSON_ERR" in recent:
             print("No Recent Files Found, Continuing Without Them")

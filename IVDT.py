@@ -1,5 +1,6 @@
 # Developed by Aunuli Mansfield
 # Immersive Vehicles Development Toolkit
+# Debugging help from: Lemmy
 # Run python file with Python 3.8.7 or newer
 
 import sys
@@ -12,10 +13,22 @@ import string
 import webbrowser
 import pathlib
 import random
+from sys import platform
+if platform == "linux" or platform == "linux2":
+    subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'dearpygui'])
+elif platform == "darwin":
+    print("How Dare You")
+elif platform == "win32":
+    subprocess.check_call([sys.executable, '-m', 'ensurepip', '--default-pip'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
+    subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'dearpygui'])
 
 programData = {"uuids":[],"recent":[]}
 
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'dearpygui']) # Download dearPyGui
+import dearpygui.dearpygui as dpg
+from dearpygui.demo import show_demo
 
 def hyperlink(text, address):
     b = dpg.add_button(label=text, callback=lambda:webbrowser.open(address))
@@ -25,7 +38,7 @@ def readDir(path, makeDir = False):
     if (os.path.isdir(path)):
         return os.listdir(path)
     elif makeDir:
-        os.makedirs(path)
+        print(os.makedirs(path))
         return os.listdir(path)
     else:
         return []
@@ -38,9 +51,6 @@ def readJSON(path):
     else:
         with dpg.window(label = "ERROR"):
             dpg.add_text("Could not find a JSON file at " + path)
-
-import dearpygui.dearpygui as dpg
-from dearpygui.demo import show_demo
 
 def generateUUID():
     uuid = random.randrange(0, 999, 1)
@@ -63,6 +73,8 @@ def removeUUID(uuid):
 def generateProject(name, path, uuid):
     readDir(path + "/" + name + "/assets", True)
     openProject(path + "/" + name)
+    deleteItem(uuid)
+    removeUUID(uuid)
 
 def newProject():
     uuid = generateUUID()
@@ -93,7 +105,7 @@ def fileBrowser(sender, app_data, fileData):
 def updateWorkspace(uuid, root, rmUUID = 0):
     if (rmUUID != 0):
         removeUUID(rmUUID)
-    dpg.delete_item(str(uuid) + "_contents")
+    deleteItem(str(uuid) + "_contents")
     loadProjectContents(uuid, root)
 
 def updateButton(file, uuid):
@@ -103,12 +115,14 @@ def importFile(imageSrc, imageEnd):
     if os.path.isfile(imageSrc):
         shutil.copy2(imageSrc, imageEnd)
 
+def deleteItem(uuid):
+    dpg.delete_item(uuid)
+
 def generateFont(tab, name, src, uuid, projectUUID, root):
     fontDir = tab + "/textures/fonts/" + name
-    readDir(fontDir, True)
+    print(readDir(fontDir, True))
     importFile(src, fontDir + "/unicode_page_00")
-    dpg.delete_item(uuid)
-    dpg.delete_item(uuid)
+    deleteItem(uuid)
     updateWorkspace(projectUUID, root, uuid)
 
 def makeFont(root, projectUUID):
@@ -125,17 +139,18 @@ def makeFont(root, projectUUID):
         with dpg.group(horizontal = True):
             dpg.add_text("Creative Tab: ")
             tabsList = readDir(assets, True)
-            tabs = []
+            tabs = {"names":[],"dirs":{}}
             for tab in tabsList:
                 tab = assets + "/" + tab
                 tabJSON = readJSON(tab + "/packdefinition.json")
                 tabName = tabJSON["packName"]
-                tabs.append(tabName)
-            dpg.add_combo(tabs, label = "", width = 600)
+                tabs["names"].append(tabName)
+                tabs["dirs"][tabName] = tab
+            dpg.add_combo(tabs["names"], label = "", tag = str(uuid) + "_combo", width = 600)
         with dpg.group(horizontal = True):
             dpg.add_text("PNG Source:")
             dpg.add_button(label = "File", tag = str(uuid) + "_updatable", callback = fileBrowser, user_data = {"title":"Select A Project","fileTypes":["Image (.png){.png}"],"uuid":uuid,"function":"updateButton"}, width = 600)
-        dpg.add_button(label = "Make Font", callback = lambda s, a, u : generateFont(tab, dpg.get_value(str(uuid) + "_name"), dpg.get_item_label(str(uuid) + "_updatable"), uuid, projectUUID, root))
+        dpg.add_button(label = "Make Font", callback = lambda s, a, u : generateFont(tabs["dirs"][dpg.get_value(str(uuid) + "_combo")], dpg.get_value(str(uuid) + "_name"), dpg.get_item_label(str(uuid) + "_updatable"), uuid, projectUUID, root))
 
 def generateTab(name, uuid, projectUUID, root):
     tabDir = (re.sub(r'[^a-zA-Z0-9]', '', name)).lower()
@@ -144,8 +159,7 @@ def generateTab(name, uuid, projectUUID, root):
     packDef["packID"] = tabDir
     packDef["packName"] = name
     makeJSON(root + "/assets/" + tabDir + "/packdefinition.json", packDef)
-    dpg.delete_item(uuid)
-    dpg.delete_item(uuid)
+    deleteItem(uuid)
     updateWorkspace(projectUUID, root, uuid)
 
 def makeTab(root, projectUUID):

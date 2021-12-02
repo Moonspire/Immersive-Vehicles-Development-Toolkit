@@ -145,11 +145,10 @@ import random
 
 from sys import platform
 if platform == "linux" or platform == "linux2":
-    try:
+    if os.geteuid()==0:
         subprocess.check_call(['apt-get', 'install', '-y', 'python3-pip'])
-    except IOError as e:
-        if (e[0] == errno.EPERM):
-            sys.exit("ERROR: IVDT does not have permission to download dependancies, try 'sudo python3 IVDT.py'")
+    else:
+        sys.exit("ERROR: IVDT does not have permission to download dependancies, try 'sudo python3 IVDT.py'")
 elif platform == "darwin":
     sys.exit("ERROR: IVDT can't download dependancies on Mac OS, please use Linux or Windows")
 elif platform == "win32":

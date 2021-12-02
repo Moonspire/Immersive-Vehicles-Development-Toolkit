@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "M1-3 Interstate Business Spur (1-2 Digit)",
+        "type" : "sign",
+        "modelName" : "signmarker",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "route",
+					"pos" : [0.04296875, 0.921875, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.2890625,
+					"maxLength" : 2,
+					"color" : "0xA0A0A0",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "D10-1 Reference Location (Mile Marker)",
+        "type" : "sign",
+        "modelName" : "signmisc",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "1",
+					"pos" : [0.015625, 0.8828125, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 0.48046875,
+					"maxLength" : 1,
+					"color" : "0xA0A0A0",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

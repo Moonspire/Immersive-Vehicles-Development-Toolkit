@@ -1,0 +1,36 @@
+{
+  "definitions" : [
+		{
+		"name" : "Blank Sign",
+			"subName" : "_blank",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "I-5 Airport",
+			"subName" : "_i-5",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "I-6 Bus Station",
+			"subName" : "_i-6",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "I-7 Train Station",
+			"subName" : "_i-7",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "I-12 Light Rail Station",
+			"subName" : "_i-12",
+			"extraMaterials" : []
+		}
+	],
+
+    "general": {
+        "name" : "Sign",
+        "type" : "sign",
+        "modelName" : "signmisc",
+		"materials" : ["oredict:ingotIron:1"]
+	}
+}

@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "M1-2 Interstate Business Loop (3 Digit)",
+        "type" : "sign",
+        "modelName" : "signmarker",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "route",
+					"pos" : [0.04296875, 0.8984375, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.109375,
+					"maxLength" : 3,
+					"color" : "0xA0A0A0",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

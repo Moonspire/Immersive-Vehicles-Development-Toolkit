@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "M1-4 US Highway Route (3 Digit with Background)",
+        "type" : "sign",
+        "modelName" : "signmarker",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "route",
+					"pos" : [0.048828125, 0.96875, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.2578125,
+					"maxLength" : 3,
+					"color" : "0x000000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

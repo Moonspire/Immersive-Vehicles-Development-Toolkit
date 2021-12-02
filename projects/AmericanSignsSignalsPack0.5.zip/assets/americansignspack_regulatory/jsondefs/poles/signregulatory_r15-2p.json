@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "R15-2P Number Of Tracks (plaque)",
+        "type" : "sign",
+        "modelName" : "signregulatory",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "Track Number",
+					"pos" : [0.005859375, 1, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 0.38671875,
+					"maxLength" : 1,
+					"color" : "0x000000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

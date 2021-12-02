@@ -1,0 +1,34 @@
+{
+    "general": {
+        "name" : "M1-6 County Route",
+        "type" : "sign",
+        "modelName" : "signmarker",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "route",
+					"pos" : [0.033203125, 0.84375, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.0078125,
+					"maxLength" : 2,
+					"color" : "0xC4A000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				},
+				{
+					"fieldName" : "county",
+					"pos" : [0.0, 0.869140625, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 0.25,
+					"maxLength" : 100,
+					"color" : "0xC4A000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 377
+				}
+			]
+	}
+}

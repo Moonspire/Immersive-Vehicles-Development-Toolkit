@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "R2-1 Speed Limit",
+        "type" : "sign",
+        "modelName" : "signregulatory",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "limit",
+					"pos" : [0.046875, 0.625, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.234375,
+					"maxLength" : 3,
+					"color" : "0x000000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

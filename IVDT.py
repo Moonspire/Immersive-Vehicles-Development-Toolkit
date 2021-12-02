@@ -122,8 +122,6 @@ version = "D-1.0.0"
 #
 # The Main Menu always has a UWID of 0, it is the only window with a hard coded UWID and the only window that can not exist multiple times. Never call "main()" in any function!
 #
-# 
-#
 # Documentation on DearPyGui can be found here: https://dearpygui.readthedocs.io/en/latest/
 
 ###########
@@ -220,6 +218,11 @@ def generateProject(name, path, uwid):
 
 def openProject(file, unused = 0):
     file = os.path.abspath(file)
+    if os.path.isfile(file):
+        extract_dir = "./projects/" + os.path.split(file)[1]
+        readDir(extract_dir, True)
+        shutil.unpack_archive(file, extract_dir, "zip")
+        file = extract_dir
     projectBrowser(0, "", file)
 
 def projectBrowser(sender, app_data, root):
@@ -231,6 +234,8 @@ def projectBrowser(sender, app_data, root):
     uwid = generateUWID()
     with dpg.window(label = projectName, width = 400, height = 800, pos = (100, 100), tag = uwid, on_close = removeUWID, user_data = uwid):
         with dpg.menu_bar():
+            with dpg.menu(label = "File"):
+                dpg.add_menu_item(label = "Export Jar", callback = lambda s, a, u : fileBrowser("Export Project",root,"makeJar",["Archive (.jar .zip){.jar,.zip}"]))
             with dpg.menu(label = "Create"):
                 dpg.add_menu_item(label = "Creative Tab", callback = lambda s, a, u : makeTab(root, uwid))
                 dpg.add_menu_item(label = "Font", callback = lambda s, a, u : makeFont(root, uwid))
@@ -364,6 +369,13 @@ def importFile(imageSrc, imageEnd):
 def makeJSON(path, data):
     with open(path, "w") as file:
         json.dump(data, file, indent=4, sort_keys=True)
+
+def makeJar(path, root):
+    name = os.path.split(path)[1]
+    path = os.path.split(path)[0]
+    print(root, path)
+    zip_name = shutil.make_archive(path, "zip", root)
+    os.rename(zip_name, name)
 
 ###########
 # Generic #

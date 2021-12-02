@@ -1,0 +1,22 @@
+{
+    "general": {
+        "name" : "M1-5 State Route (Diamond)",
+        "type" : "sign",
+        "modelName" : "signmarker",
+        "materials" : ["oredict:ingotIron:1"],
+				"textObjects" : [
+				{
+					"fieldName" : "route",
+					"pos" : [0.037109375, 0.8984375, 0.001],
+					"rot" : [0.0, 0.0, 0.0],
+					"scale" : 1.109375,
+					"maxLength" : 2,
+					"color" : "0x000000",
+					"defaultText" : "",
+					"renderPosition" : 0,
+					"autoScale" : true,
+					"wrapWidth" : 324
+				}
+			]
+	}
+}

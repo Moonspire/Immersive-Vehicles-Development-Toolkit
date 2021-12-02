@@ -1,0 +1,286 @@
+{
+  "definitions" : [
+		{
+		"name" : "Blank Sign",
+			"subName" : "_blank",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M2-1 Junction (Auxiliary Blue)",
+			"subName" : "_m2-1b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M2-1 Junction (Auxiliary Green)",
+			"subName" : "_m2-1g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M2-1 Junction (Auxiliary White)",
+			"subName" : "_m2-1w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-1 North (Auxiliary Blue)",
+			"subName" : "_m3-1b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-1 North (Auxiliary Green)",
+			"subName" : "_m3-1g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-1 North (Auxiliary White)",
+			"subName" : "_m3-1w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-2 East (Auxiliary Blue)",
+			"subName" : "_m3-2b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-2 East (Auxiliary Green)",
+			"subName" : "_m3-2g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-2 East (Auxiliary White)",
+			"subName" : "_m3-2w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-3 South (Auxiliary Blue)",
+			"subName" : "_m3-3b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-3 South (Auxiliary Green)",
+			"subName" : "_m3-3g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-3 South (Auxiliary White)",
+			"subName" : "_m3-3w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-4 West (Auxiliary Blue)",
+			"subName" : "_m3-4b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-4 West (Auxiliary Green)",
+			"subName" : "_m3-4g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M3-4 West (Auxiliary White)",
+			"subName" : "_m3-4w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-1 Alt (Auxiliary)",
+			"subName" : "_m4-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-2 By-Pass (Auxiliary)",
+			"subName" : "_m4-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-3 Business (Auxiliary)",
+			"subName" : "_m4-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-5 To (Auxiliary Blue)",
+			"subName" : "_m4-5b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-5 To (Auxiliary Green)",
+			"subName" : "_m4-5g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-5 To (Auxiliary White)",
+			"subName" : "_m4-5w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1L Left Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-1lb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1L Left Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-1lg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1L Left Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-1lw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1R Right Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-1rb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1R Right Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-1rg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-1R Right Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-2rw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2L Diagonal Left Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-2lb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2L Diagonal Left Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-2lg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2L Diagonal Left Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-2lw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2R Diagonal Right Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-2rb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2R Diagonal Right Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-2rg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-2R Diagonal Right Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-2rw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-3 Straight Arrow (Auxiliary Blue)",
+			"subName" : "_m6-3b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-3 Straight Arrow (Auxiliary Green)",
+			"subName" : "_m6-3g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-3 Straight Arrow (Auxiliary White)",
+			"subName" : "_m6-3w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-4 Two Directional Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-4b",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-4 Two Directional Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-4g",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-4 Two Directional Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-4w",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6L Two Directional Striaght Left Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-6lb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6L Two Directional Striaght Left Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-6lg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6L Two Directional Striaght Left Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-6lw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6R Two Directional Striaght Right Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-6rb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6R Two Directional Striaght Right Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-6rg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-6R Two Directional Striaght Right Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-6rw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7L Two Directional Striaght Diagonal Left Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-7lb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7L Two Directional Striaght Diagonal Left Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-7lg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7L Two Directional Striaght Diagonal Left Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-7lw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7R Two Directional Striaght Diagonal Right Turn Arrow (Auxiliary Blue)",
+			"subName" : "_m6-7rb",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7R Two Directional Striaght Diagonal Right Turn Arrow (Auxiliary Green)",
+			"subName" : "_m6-7rg",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M6-7R Two Directional Striaght Diagonal Right Turn Arrow (Auxiliary White)",
+			"subName" : "_m6-7rw",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "OM-3C Object Marker (Center)",
+			"subName" : "_om-3c",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "OM-3L Object Marker (Left)",
+			"subName" : "_om-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "OM-3R Object Marker (Right)",
+			"subName" : "_om-3r",
+			"extraMaterials" : []
+		}
+	],
+
+    "general": {
+        "name" : "Sign Marker",
+        "type" : "sign",
+        "modelName" : "signmarker",
+		"materials" : ["oredict:ingotIron:1"]
+	}
+}

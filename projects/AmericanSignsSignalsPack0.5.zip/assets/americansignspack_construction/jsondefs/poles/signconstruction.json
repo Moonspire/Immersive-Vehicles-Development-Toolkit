@@ -1,0 +1,141 @@
+{
+  "definitions" : [
+		{
+		"name" : "Blank Sign",
+			"subName" : "_blank",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-1L Left Turn (Road Work)",
+			"subName" : "_wc1-1l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-1R Right Turn (Road Work)",
+			"subName" : "_wc1-1r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-2L Left Curve (Road Work)",
+			"subName" : "_wc1-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-2R Right Curve (Road Work)",
+			"subName" : "_wc1-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-3L Left Reverse Turn (Road Work)",
+			"subName" : "_wc1-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-3R Right Reverse Turn (Road Work)",
+			"subName" : "_wc1-3r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4L Left Reverse Curve (Road Work)",
+			"subName" : "_wc1-4l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4R Right Reverse Curve (Road Work)",
+			"subName" : "_wc1-4r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4bL Left 2 Lane Reverse Curve (Road Work)",
+			"subName" : "_wc1-4bl",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4bR Right 2 Lane Reverse Curve (Road Work)",
+			"subName" : "_wc1-4br",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4cL Left 3 Lane Reverse Curve (Road Work)",
+			"subName" : "_wc1-4cl",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4cR Right 3 Lane Reverse Curve (Road Work)",
+			"subName" : "_wc1-4cr",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-5L Left Winding Road (Road Work)",
+			"subName" : "_wc1-5l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-5R Right Winding Road (Road Work)",
+			"subName" : "_wc1-5r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-1 Stop Ahead (Road Work)",
+			"subName" : "_wc3-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-2 Yield Ahead (Road Work)",
+			"subName" : "_wc3-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-3 Signal Ahead (Road Work)",
+			"subName" : "_wc3-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-4 Be Prepared to Stop (Road Work)",
+			"subName" : "_wc3-4",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-2L Left Lane Ends (Road Work)",
+			"subName" : "_wc4-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-2R Right Lane Ends (Road Work)",
+			"subName" : "_wc4-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-3 Pavement Ends (Road Work)",
+			"subName" : "_wc8-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W20-1 Road Work Ahead (Road Work)",
+			"subName" : "_wc20-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W20-2 Detour Ahead (Road Work)",
+			"subName" : "_wc20-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-9L Left Detour (Arrow) (Road Work)",
+			"subName" : "_m4-9l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "M4-9R Right Detour (Arrow) (Road Work)",
+			"subName" : "_m4-9r",
+			"extraMaterials" : []
+		}
+	],
+
+    "general": {
+        "name" : "Sign Construction",
+        "type" : "sign",
+        "modelName" : "signconstruction",
+		"materials" : ["oredict:ingotIron:1"]
+	}
+}

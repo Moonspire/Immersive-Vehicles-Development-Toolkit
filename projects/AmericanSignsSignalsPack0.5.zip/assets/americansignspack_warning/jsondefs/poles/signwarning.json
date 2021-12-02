@@ -1,0 +1,521 @@
+{
+  "definitions" : [
+		{
+		"name" : "Blank Sign",
+			"subName" : "_blank",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-1L Left Turn",
+			"subName" : "_w1-1l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-1R Right Turn",
+			"subName" : "_w1-1r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-2L Left Curve",
+			"subName" : "_w1-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-2R Right Curve",
+			"subName" : "_w1-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-3L Left Reverse Turn",
+			"subName" : "_w1-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-3R Right Reverse Turn",
+			"subName" : "_w1-3r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4L Left Reverse Curve",
+			"subName" : "_w1-4l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-4R Right Reverse Curve",
+			"subName" : "_w1-4r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-5L Left Winding Road",
+			"subName" : "_w1-5l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-5R Right Winding Road",
+			"subName" : "_w1-5r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-6L Left One Direction Large Arrow",
+			"subName" : "_w1-6l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-6R Right One Direction Large Arrow",
+			"subName" : "_w1-6r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-7 Two Direction Large Arrow",
+			"subName" : "_w1-7",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-8L Chevron Alignment",
+			"subName" : "_w1-8l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-8R Right Chevron Alignment",
+			"subName" : "_w1-8r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10L Left Curve Side Road Intersection",
+			"subName" : "_w1-10l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10R Right Curve Side Road Intersection",
+			"subName" : "_w1-10r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10aL Left Curve Cross Road Intersection",
+			"subName" : "_w1-10al",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10aR Right Curve Cross Road Intersection",
+			"subName" : "_w1-10ar",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10bL Left Curve Side Road Intersection (Tangent)",
+			"subName" : "_w1-10bl",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10bR Right Curve Side Road Intersection (Tangent)",
+			"subName" : "_w1-10br",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10cL Left Curve Side Road Intersection (Tangent)",
+			"subName" : "_w1-10cl",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10cR Right Curve Side Road Intersection (Tangent)",
+			"subName" : "_w1-10cr",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10dL Left Reverse Curve Side Road Intersection",
+			"subName" : "_w1-10dl",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10dR Right Reverse Curve Side Road Intersection",
+			"subName" : "_w1-10dr",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10eL Left Reverse Curve Cross Road Intersection",
+			"subName" : "_w1-10el",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-10eR Right Reverse Curve Cross Road Intersection",
+			"subName" : "_w1-10er",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-11L 180 Degree Left (Hairpin) Curve",
+			"subName" : "_w1-11l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-11R 180 Degree Right (Hairpin) Curve",
+			"subName" : "_w1-11r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-13L Left Truck Rollover",
+			"subName" : "_w1-13l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-13R Right Truck Rollover",
+			"subName" : "_w1-13r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-15L 270 Degree Left (Loop) Curve",
+			"subName" : "_w1-15l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W1-15R 270 Degree Right (Loop) Curve",
+			"subName" : "_w1-15r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-1 Cross Road Intersection",
+			"subName" : "_w2-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-2L Left Side Road Intersection",
+			"subName" : "_w2-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-2R Right Side Road Intersection",
+			"subName" : "_w2-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-3L Left Diagonal Side Road Intersection",
+			"subName" : "_w2-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-3R Right Diagonal Side Road Intersection",
+			"subName" : "_w2-3r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-4 T Intersection",
+			"subName" : "_w2-4",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-5 Y Intersection",
+			"subName" : "_w2-5",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-6 Roundabout Intersection",
+			"subName" : "_w2-6",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-7L Left Offset Side Road Intersection",
+			"subName" : "_w2-7l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-7R Right Offset Side Road Intersection",
+			"subName" : "_w2-7r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-8L Left Double Side Road Intersection",
+			"subName" : "_w2-8l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W2-8R Right Double Side Road Intersection",
+			"subName" : "_w2-8r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-1 Stop Ahead",
+			"subName" : "_w3-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-2 Yield Ahead",
+			"subName" : "_w3-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-3 Signal Ahead",
+			"subName" : "_w3-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W3-4 Be Prepared to Stop",
+			"subName" : "_w3-4",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-1L Left Merge",
+			"subName" : "_w4-1l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-1R Right Merge",
+			"subName" : "_w4-1r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-2L Left Lane Ends",
+			"subName" : "_w4-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-2R Right Lane Ends",
+			"subName" : "_w4-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-3L Left Added Lane",
+			"subName" : "_w4-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-3R Right Added Lane",
+			"subName" : "_w4-3r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-4P Cross Traffic Does Not Stop (plaque)",
+			"subName" : "_w4-4p",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-4aLP Traffic From Left Does Not Stop (plaque)",
+			"subName" : "_w4-4alp",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-4aRP Traffic From Right Does Not Stop (plaque)",
+			"subName" : "_w4-4arp",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-4bP Oncoming Traffic Does Not Stop (plaque)",
+			"subName" : "_w4-4bp",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-5L Left Entering Roadway Merge",
+			"subName" : "_w4-5l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-5R Right Entering Roadway Merge",
+			"subName" : "_w4-5r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-6L Left Entering Roadway Added Lane",
+			"subName" : "_w4-6l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W4-6R Right Entering Roadway Added Lane",
+			"subName" : "_w4-6r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W5-1 Road Narrows",
+			"subName" : "_w5-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W5-2 Narrow Bridge",
+			"subName" : "_w5-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W5-3 One Lane Bridge",
+			"subName" : "_w5-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W6-1 Divided Highway",
+			"subName" : "_w6-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W6-2 Divided Highway Ends",
+			"subName" : "_w6-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W6-3 Two Way Traffic",
+			"subName" : "_w6-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W7-1 Hill",
+			"subName" : "_w7-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-1 Bump",
+			"subName" : "_w8-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-3 Pavement Ends",
+			"subName" : "_w8-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-6 Truck Crossing",
+			"subName" : "_w8-6",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-13 Bridge Ices Before Road",
+			"subName" : "_w8-13",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W8-25 Shoulder Ends",
+			"subName" : "_w8-25",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-1 Railroad Crossing Warning",
+			"subName" : "_w10-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-2L Left Crossroad Railroad Crossing",
+			"subName" : "_w10-2l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-2R Right Crossroad Railroad Crossing",
+			"subName" : "_w10-2r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-3L Left Side Road Railroad Crossing",
+			"subName" : "_w10-3l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-3R Right Side Road Railroad Crossing",
+			"subName" : "_w10-3r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-4L Left T Intersection Railroad Crossing",
+			"subName" : "_w10-4l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-4R Right T Intersection Railroad Crossing",
+			"subName" : "_w10-4r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-11 Crossroad Railroad Crossing",
+			"subName" : "_w10-11",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-11a T Intersection Railroad Crossing",
+			"subName" : "_w10-11a",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-12L Left Skewed Railroad Crossing",
+			"subName" : "_w10-12l",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W10-12R Right Skewed Railroad Crossing",
+			"subName" : "_w10-12r",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-1 Bicycle",
+			"subName" : "_w11-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-2 Pedestrian",
+			"subName" : "_w11-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-3 Deer",
+			"subName" : "_w11-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-4 Cattle",
+			"subName" : "_w11-4",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-5 Farm Equipment",
+			"subName" : "_w11-5",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-8 Emergency Vehicle",
+			"subName" : "_w11-8",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-10 Truck",
+			"subName" : "_w11-10",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-12P Emergency Signal Ahead (plaque)",
+			"subName" : "_w11-12p",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-17 Sheep",
+			"subName" : "_w11-17",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W11-22 Horse",
+			"subName" : "_w11-22",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W14-1 Dead End",
+			"subName" : "_w14-1",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W14-2 No Outlet",
+			"subName" : "_w14-2",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W14-3 No Passing Zone",
+			"subName" : "_w14-3",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W16-12P Traffic Circle (plaque)",
+			"subName" : "_w16-12p",
+			"extraMaterials" : []
+		},
+		{
+		"name" : "W16-17P Roundabout (plaque)",
+			"subName" : "_w16-17p",
+			"extraMaterials" : []
+		}
+	],
+
+    "general": {
+        "name" : "Sign Warning",
+        "type" : "sign",
+        "modelName" : "signwarning",
+		"materials" : ["oredict:ingotIron:1"]
+	}
+}

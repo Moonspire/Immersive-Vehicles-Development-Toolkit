@@ -2,7 +2,7 @@
 # Immersive Vehicles Development Tookit #
 #########################################
 
-# Developers: Aunuli
+# Developers: Aunuli Mansfield (Moonspire)
 # Debugging help from: Lemmy
 # IV help from: Laura
 # Run python file with Python 3
@@ -520,6 +520,8 @@ def printData(s, a, u):
 dpg.create_context()
 dpg.create_viewport()
 dpg.setup_dearpygui()
+
+dpg.set_viewport_large_icon("ivdt_icon.ico")
 
 main()
 

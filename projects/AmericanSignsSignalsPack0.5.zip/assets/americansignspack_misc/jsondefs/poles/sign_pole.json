@@ -1,8 +1,0 @@
-{
-    "general": {
-        "name" : "Sign Pole",
-		"type" : "core",
-		"radius" : 0.0625,
-		"materials" : ["minecraft:stone:0:1"]
-	}
-}

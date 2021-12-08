@@ -1,7 +1,0 @@
-{
-    "general": {
-        "name" : "Standard 3-Panel Vertical Traffic Signal",
-		"type" : "traffic_signal",
-		"materials" : ["oredict:dyeRed:1", "oredict:dyeYellow:1","oredict:dyeLime:1", "oredict:ingotIron:1"]
-	}
-}

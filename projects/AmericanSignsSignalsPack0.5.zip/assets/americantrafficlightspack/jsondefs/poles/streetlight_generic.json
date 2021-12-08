@@ -1,7 +1,0 @@
-{
-    "general": {
-        "name" : "Generic Street Light",
-		"type" : "street_light",
-		"materials" : ["oredict:dustGlowstone:1", "minecraft:stone_slab:0:1"]
-	}
-}

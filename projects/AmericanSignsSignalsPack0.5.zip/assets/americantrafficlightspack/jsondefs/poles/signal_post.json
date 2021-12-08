@@ -1,8 +1,0 @@
-{
-    "general": {
-        "name" : "Signal Post",
-		"type" : "core",
-		"radius" : 0.25,
-		"materials" : ["minecraft:stone:0:1"]
-	}
-}

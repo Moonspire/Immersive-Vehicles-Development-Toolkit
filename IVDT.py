@@ -368,6 +368,9 @@ def fontBrowser(fontName, projectUWID, root, tab):
 
 def textureEditor(xRes = 128, yRes = 128):
     with dpg.window(label = "Texture Maker", width = 1020, height = 820):
+        with dpg.menu_bar():
+            with dpg.menu(label = "File"):
+                dpg.add_menu_item(label = "Save Image")
         with dpg.group():
             dpg.add_text("Primary Color")
             dpg.add_color_picker((255, 0, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
@@ -376,9 +379,11 @@ def textureEditor(xRes = 128, yRes = 128):
         with dpg.group(tag = "textureViewPort"):
             width, height, channels, data = createTextureData(xRes, yRes)
             with dpg.texture_registry():
+                dpg.add_static_texture(51, 51, createTransparency(), tag = "transparency")
                 dpg.add_dynamic_texture(width, height, data, tag = "testTexture")
             with dpg.group(tag = "imageFrame"):
                 with dpg.drawlist(width=800, height=800):
+                    dpg.draw_image("transparency", (0, 0), (800, 800), uv_min=(0, 0), uv_max=(1, 1))
                     dpg.draw_image("testTexture", (0, 0), (800, 800), uv_min=(0, 0), uv_max=(1, 1))
                 dpg.set_item_pos("imageFrame", (220, 19))
                 print(dpg.get_item_pos("textureViewPort"))
@@ -388,6 +393,20 @@ def textureEditor(xRes = 128, yRes = 128):
 
 def colorChanged(s, a, u):
     print(a)
+
+def createTransparency():
+    textureData = []
+    for i in range(51*51):
+        if (i % 2) == 0:
+            textureData.append(0.5)
+            textureData.append(0.5)
+            textureData.append(0.5)
+        else:
+            textureData.append(0.6)
+            textureData.append(0.6)
+            textureData.append(0.6)
+        textureData.append(1)
+    return textureData
 
 def textureMouse(data, resolution = [128, 128]):
     if dpg.is_mouse_button_down(0):
@@ -422,10 +441,10 @@ def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
 def createTextureData(xRes, yRes):
     textureData = []
     for i in range(xRes*yRes):
-        textureData.append(1)
-        textureData.append(1)
-        textureData.append(1)
-        textureData.append(1)
+        textureData.append(0)
+        textureData.append(0)
+        textureData.append(0)
+        textureData.append(0)
     return xRes, yRes, 4, textureData
 
 #########

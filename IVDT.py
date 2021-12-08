@@ -179,6 +179,11 @@ def main():
     global version
     programData["uwids"].append(uwid)
     with dpg.window(label = "Main Menu", width = 400, height = 800, pos = (0, 0)):
+        if "D-" in version:
+            with dpg.menu_bar():
+                with dpg.menu(label = "Experimental"):
+                    dpg.add_menu_item(label = "Texture Maker", callback = lambda s, a, u : textureEditor())
+                    dpg.add_menu_item(label = "DearPyGui Demo", callback = show_demo)
         dpg.add_text("Immersive Vehicles Development Toolkit - " + version)
         recent = readJSON("recent")
         if "JSON_ERR" in recent:
@@ -354,7 +359,74 @@ def fontBrowser(fontName, projectUWID, root, tab):
         width, height, channels, data = dpg.load_image(fontSrc)
         with dpg.texture_registry():
             texture_id = dpg.add_static_texture(width, height, data)
-        dpg.add_image(texture_id, width = 300, height = 300)
+        with dpg.drawlist(width=300, height=300):
+            dpg.draw_image(texture_id, (0, 0), (300, 300), uv_min=(0, 0), uv_max=(1, 1))
+
+##################
+# Texture Editor #
+##################
+
+def textureEditor(xRes = 128, yRes = 128):
+    with dpg.window(label = "Texture Maker", width = 1020, height = 820):
+        with dpg.group():
+            dpg.add_text("Primary Color")
+            dpg.add_color_picker((255, 0, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
+            dpg.add_text("Secondary Color")
+            dpg.add_color_picker((255, 0, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
+        with dpg.group(tag = "textureViewPort"):
+            width, height, channels, data = createTextureData(xRes, yRes)
+            with dpg.texture_registry():
+                dpg.add_dynamic_texture(width, height, data, tag = "testTexture")
+            with dpg.group(tag = "imageFrame"):
+                with dpg.drawlist(width=800, height=800):
+                    dpg.draw_image("testTexture", (0, 0), (800, 800), uv_min=(0, 0), uv_max=(1, 1))
+                dpg.set_item_pos("imageFrame", (220, 19))
+                print(dpg.get_item_pos("textureViewPort"))
+                with dpg.item_handler_registry(tag = "texEdit"):
+                    dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [width, height]))
+                dpg.bind_item_handler_registry("imageFrame", "texEdit")
+
+def colorChanged(s, a, u):
+    print(a)
+
+def textureMouse(data, resolution = [128, 128]):
+    if dpg.is_mouse_button_down(0):
+        textureDraw(data, "L", resolution)
+    elif dpg.is_mouse_button_down(1):
+        textureDraw(data, "R", resolution)
+
+def textureDraw(data, button = "L", resolution = [128, 128]):
+    pos = dpg.get_mouse_pos()
+    pos = [int((pos[0]-220)*(resolution[0]/800)), int(pos[1]*(resolution[1]/800))]
+    print(button, str(pos))
+    color = []
+    colorSelected = "colorPicker"
+    if button == "R":
+        colorSelected = "colorPicker2"
+    for channel in dpg.get_value(colorSelected):
+        color.append(channel/255)
+    data = editPixel(pos, resolution, data, color)
+    dpg.set_value("testTexture", data)
+
+def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
+    r = ((pos[1]*resolution[1])+pos[0])*4
+    g = r + 1
+    b = g + 1
+    a = b + 1
+    data[r] = rgba[0]
+    data[g] = rgba[1]
+    data[b] = rgba[2]
+    data[a] = rgba[3]
+    return data
+
+def createTextureData(xRes, yRes):
+    textureData = []
+    for i in range(xRes*yRes):
+        textureData.append(1)
+        textureData.append(1)
+        textureData.append(1)
+        textureData.append(1)
+    return xRes, yRes, 4, textureData
 
 #########
 # Input #
@@ -432,6 +504,15 @@ def updateButton(file, uwid):
 def deleteItem(uwid):
     dpg.delete_item(uwid)
 
+#########
+# Debug #
+#########
+
+def printData(s, a, u):
+    print(s)
+    print(a)
+    print(u)
+
 ##################################
 # Create Window & Open Main Menu #
 ##################################
@@ -439,8 +520,6 @@ def deleteItem(uwid):
 dpg.create_context()
 dpg.create_viewport()
 dpg.setup_dearpygui()
-
-#show_demo()
 
 main()
 

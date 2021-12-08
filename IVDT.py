@@ -373,9 +373,10 @@ def textureEditor(xRes = 128, yRes = 128):
                 dpg.add_menu_item(label = "Save Image")
         with dpg.group():
             dpg.add_text("Primary Color")
-            dpg.add_color_picker((255, 0, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
+            dpg.add_color_picker((255, 255, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
+            dpg.add_button(label = "Swap Primary & Secondary", callback = lambda s, a, u: swapColors())
             dpg.add_text("Secondary Color")
-            dpg.add_color_picker((255, 0, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
+            dpg.add_color_picker((0, 0, 0, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
         with dpg.group(tag = "textureViewPort"):
             width, height, channels, data = createTextureData(xRes, yRes)
             with dpg.texture_registry():
@@ -390,6 +391,12 @@ def textureEditor(xRes = 128, yRes = 128):
                 with dpg.item_handler_registry(tag = "texEdit"):
                     dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [width, height]))
                 dpg.bind_item_handler_registry("imageFrame", "texEdit")
+
+def swapColors():
+    primary = dpg.get_value("colorPicker")
+    secondary = dpg.get_value("colorPicker2")
+    dpg.set_value("colorPicker", secondary)
+    dpg.set_value("colorPicker2", primary)
 
 def colorChanged(s, a, u):
     print(a)

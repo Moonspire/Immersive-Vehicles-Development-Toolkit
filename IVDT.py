@@ -263,7 +263,7 @@ def loadProjectContents(uwid, root):
                     fonts = tab + "/textures/fonts"
                     fontsList = readDir(fonts)
                     for font in fontsList:
-                        dpg.add_button(label = font)
+                        dpg.add_button(label = font, callback = lambda s, a, u : openFont(font, uwid, root, tab))
 
 #################
 # Creative Tabs #
@@ -331,6 +331,30 @@ def generateFont(tab, name, src, uwid, projectUWID, root):
     importFile(src, fontDir + "/unicode_page_00")
     deleteItem(uwid)
     updateProject(projectUWID, root, uwid)
+
+def openFont(fontName, projectUWID, root, tab):
+    fontBrowser(fontName, projectUWID, root, tab)
+
+def fontBrowser(fontName, projectUWID, root, tab):
+    font = tab + "/textures/fonts/" + fontName
+    uwid = generateUWID()
+    with dpg.window(label = fontName, tag = uwid, on_close = lambda s, a, u : updateProject(projectUWID, root, uwid), width = 400, height = 400):
+        with dpg.menu_bar():
+            with dpg.menu(label = "File"):
+                dpg.add_menu_item(label = "Copy Font To Clipboard")
+                dpg.add_menu_item(label = "Duplicate Font")
+                dpg.add_menu_item(label = "Delete Font")
+            with dpg.menu(label = "Edit"):
+                dpg.add_menu_item(label = "Change Name")
+                dpg.add_menu_item(label = "Change Texture")
+        dpg.add_text("Font Name: " + fontName)
+        fontSrc = os.path.abspath(font + "/unicode_page_00.png")
+        print(fontSrc)
+        dpg.add_text("Font Sheet:")
+        width, height, channels, data = dpg.load_image(fontSrc)
+        with dpg.texture_registry():
+            texture_id = dpg.add_static_texture(width, height, data)
+        dpg.add_image(texture_id, width = 300, height = 300)
 
 #########
 # Input #

@@ -139,8 +139,10 @@ import webbrowser
 import pathlib
 import random
 import ctypes
+import numpy as np
+from PIL import Image
 
-ctypes.windll.shcore.SetProcessDpiAwareness(True)
+ctypes.windll.shcore.SetProcessDpiAwareness(2)
 
 ####################################
 # Get OS and download dependancies #
@@ -371,20 +373,24 @@ def fontBrowser(fontName, projectUWID, root, tab):
 
 def textureEditor(xRes = 128, yRes = 128):
     with dpg.window(label = "Texture Maker", width = 1020, height = 820):
+        global programData
+        programData["lastMousePos"] = [-1, -1]
         with dpg.menu_bar():
             with dpg.menu(label = "File"):
                 dpg.add_menu_item(label = "Save Image")
         with dpg.group():
             dpg.add_text("Primary Color")
-            dpg.add_color_picker((255, 255, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
+            dpg.add_color_picker((0, 0, 0, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
             dpg.add_button(label = "Swap Primary & Secondary", callback = lambda s, a, u: swapColors())
             dpg.add_text("Secondary Color")
-            dpg.add_color_picker((0, 0, 0, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
+            dpg.add_color_picker((0, 0, 0, 0), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
+            dpg.add_drag_int(label="Brush Size", default_value = 1, width = 100, tag = "texEdit_brushSize")
         with dpg.group(tag = "textureViewPort"):
-            width, height, channels, data = createTextureData(xRes, yRes)
+            channels = 4
+            data = imageScaler(createTextureData(xRes, yRes), [xRes, yRes], [800, 800])
             with dpg.texture_registry():
-                dpg.add_static_texture(51, 51, createTransparency(), tag = "transparency")
-                dpg.add_dynamic_texture(width, height, data, tag = "testTexture")
+                dpg.add_static_texture(800, 800, createTransparency(), tag = "transparency")
+                dpg.add_dynamic_texture(800, 800, data, tag = "testTexture")
             with dpg.group(tag = "imageFrame"):
                 with dpg.drawlist(width=800, height=800):
                     dpg.draw_image("transparency", (0, 0), (800, 800), uv_min=(0, 0), uv_max=(1, 1))
@@ -392,7 +398,7 @@ def textureEditor(xRes = 128, yRes = 128):
                 dpg.set_item_pos("imageFrame", (220, 19))
                 print(dpg.get_item_pos("textureViewPort"))
                 with dpg.item_handler_registry(tag = "texEdit"):
-                    dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [width, height]))
+                    dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [xRes, yRes]))
                 dpg.bind_item_handler_registry("imageFrame", "texEdit")
 
 def swapColors():
@@ -404,7 +410,7 @@ def swapColors():
 def colorChanged(s, a, u):
     print(a)
 
-def createTransparency():
+def createTransparency(resolution = [800, 800]):
     textureData = []
     for i in range(51*51):
         if (i % 2) == 0:
@@ -416,7 +422,7 @@ def createTransparency():
             textureData.append(0.6)
             textureData.append(0.6)
         textureData.append(1)
-    return textureData
+    return imageScaler(textureData, [51, 51], resolution)
 
 def textureMouse(data, resolution = [128, 128]):
     if dpg.is_mouse_button_down(0):
@@ -431,7 +437,7 @@ def textureDraw(data, button = "L", resolution = [128, 128]):
     global programData
     lastPos = programData["lastMousePos"]
     pos = dpg.get_mouse_pos()
-    pos = [int((pos[0]-220)*(resolution[0]/800)), int(pos[1]*(resolution[1]/800))]
+    pos = [int(pos[0]-220), int(pos[1])]
     programData["lastMousePos"] = pos
     color = []
     colorSelected = "colorPicker"
@@ -452,15 +458,39 @@ def textureDraw(data, button = "L", resolution = [128, 128]):
         print(slope, "Pos:", pos, "Last Pos:", lastPos)
         for x in areaX:
             y = int((x * slope) - (lastPos[0] * slope) + lastPos[1])
-            data = editPixel([x, y], resolution, data, color)
+            data = drawWithBrush([x, y], data, color, resolution, dpg.get_value("texEdit_brushSize"))
         for y in areaY:
+            x = pos[0]
             if slope != 0:
                 x = int((y + (lastPos[0] * slope) - lastPos[1]) / slope)
-            else:
-                x = pos[0]
-            data = editPixel([x, y], resolution, data, color)
-    data = editPixel(pos, resolution, data, color)
+            data = drawWithBrush([x, y], data, color, resolution, dpg.get_value("texEdit_brushSize"))
+    data = drawWithBrush(pos, data, color, resolution, dpg.get_value("texEdit_brushSize"))
     dpg.set_value("testTexture", data)
+
+def getPixel(pos, resolution, data):
+    r = ((pos[1]*resolution[1])+pos[0])*4
+    g = r + 1
+    b = g + 1
+    a = b + 1
+    return [data[r], data[g], data[b], data[a]]
+
+def drawWithBrush(pos, data, rgba = [0, 0, 0, 0], resolution = [128, 128], brushSize = 1):
+    scale = [800 / resolution[0], 800 / resolution[1]]
+    fillRange = [
+        [
+            int((int(pos[0] / scale[0]) - brushSize + 1) * scale[0]),
+            int((int(pos[0] / scale[0]) + brushSize) * scale[0])
+        ],
+        [
+            int((int(pos[1] / scale[1]) - brushSize + 1) * scale[1]),
+            int((int(pos[1] / scale[1]) + brushSize) * scale[1])
+        ]
+    ]
+    for x in range(*fillRange[0]):
+        for y in range(*fillRange[1]):
+            if getPixel([x,y], [800, 800], data) != rgba:
+                data = editPixel([x, y], [800, 800], data, rgba)
+    return data
 
 def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
     r = ((pos[1]*resolution[1])+pos[0])*4
@@ -476,11 +506,11 @@ def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
 def createTextureData(xRes = 128, yRes = 128):
     textureData = []
     for i in range(xRes*yRes):
-        textureData.append(1)
-        textureData.append(1)
-        textureData.append(1)
-        textureData.append(1)
-    return xRes, yRes, 4, textureData
+        textureData.append(0)
+        textureData.append(0)
+        textureData.append(0)
+        textureData.append(0)
+    return textureData
 
 #########
 # Input #
@@ -529,6 +559,27 @@ def makeJar(path, root):
 ###########
 # Generic #
 ###########
+
+def imageScaler(data, srcRes, retRes):
+    temp = []
+    for x in range(srcRes[0]*srcRes[1]):
+        r = x * 4
+        g = r + 1
+        b = g + 1
+        a = b + 1
+        temp.append((int(data[r]*255), int(data[g]*255), int(data[b]*255), int(data[a]*255)))
+    im = Image.new("RGBA", srcRes)
+    im.putdata(temp)
+    im = im.resize(retRes, resample = Image.NEAREST)
+    temp2 = list(im.getdata())
+    retImg = []
+    for x in temp2:
+        retImg.append(float(x[0])/255)
+        retImg.append(float(x[1])/255)
+        retImg.append(float(x[2])/255)
+        retImg.append(float(x[3])/255)
+    print(len(data), len(retImg))
+    return retImg
 
 def hyperlink(text, address):
     b = dpg.add_button(label=text, callback=lambda:webbrowser.open(address))

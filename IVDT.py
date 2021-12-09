@@ -488,8 +488,7 @@ def drawWithBrush(pos, data, rgba = [0, 0, 0, 0], resolution = [128, 128], brush
     ]
     for x in range(*fillRange[0]):
         for y in range(*fillRange[1]):
-            if getPixel([x,y], [800, 800], data) != rgba:
-                data = editPixel([x, y], [800, 800], data, rgba)
+            data = editPixel([x, y], [800, 800], data, rgba)
     return data
 
 def editPixel(pos, resolution, data, rgba = [0,0,0,0]):

@@ -138,6 +138,9 @@ import string
 import webbrowser
 import pathlib
 import random
+import ctypes
+
+ctypes.windll.shcore.SetProcessDpiAwareness(True)
 
 ####################################
 # Get OS and download dependancies #
@@ -420,17 +423,42 @@ def textureMouse(data, resolution = [128, 128]):
         textureDraw(data, "L", resolution)
     elif dpg.is_mouse_button_down(1):
         textureDraw(data, "R", resolution)
+    else:
+        global programData
+        programData["lastMousePos"] = [-1, -1]
 
 def textureDraw(data, button = "L", resolution = [128, 128]):
+    global programData
+    lastPos = programData["lastMousePos"]
     pos = dpg.get_mouse_pos()
     pos = [int((pos[0]-220)*(resolution[0]/800)), int(pos[1]*(resolution[1]/800))]
-    print(button, str(pos))
+    programData["lastMousePos"] = pos
     color = []
     colorSelected = "colorPicker"
     if button == "R":
         colorSelected = "colorPicker2"
     for channel in dpg.get_value(colorSelected):
         color.append(channel/255)
+    if lastPos != [-1, -1]:
+        areaX = range(lastPos[0], pos[0])
+        if pos[0] <= lastPos[0]:
+            areaX = range(pos[0], lastPos[0])
+        areaY = range(lastPos[1], pos[1])
+        if pos[1] <= lastPos[1]:
+            areaY = range(pos[1], lastPos[1])
+        slope = 0
+        if lastPos[0] != pos[0]:
+            slope = float(lastPos[1] - pos[1]) / float(lastPos[0] - pos[0])
+        print(slope, "Pos:", pos, "Last Pos:", lastPos)
+        for x in areaX:
+            y = int((x * slope) - (lastPos[0] * slope) + lastPos[1])
+            data = editPixel([x, y], resolution, data, color)
+        for y in areaY:
+            if slope != 0:
+                x = int((y + (lastPos[0] * slope) - lastPos[1]) / slope)
+            else:
+                x = pos[0]
+            data = editPixel([x, y], resolution, data, color)
     data = editPixel(pos, resolution, data, color)
     dpg.set_value("testTexture", data)
 
@@ -445,13 +473,13 @@ def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
     data[a] = rgba[3]
     return data
 
-def createTextureData(xRes, yRes):
+def createTextureData(xRes = 128, yRes = 128):
     textureData = []
     for i in range(xRes*yRes):
-        textureData.append(0)
-        textureData.append(0)
-        textureData.append(0)
-        textureData.append(0)
+        textureData.append(1)
+        textureData.append(1)
+        textureData.append(1)
+        textureData.append(1)
     return xRes, yRes, 4, textureData
 
 #########

@@ -5,3 +5,4 @@ Features:
 - Pack Creation
 - Creative Tab Managment
 - Adding Fonts
+- In Dev Texture Editor (Currently laggy)

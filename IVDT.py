@@ -371,7 +371,7 @@ def fontBrowser(fontName, projectUWID, root, tab):
 ###############
 
 def JSONEditor(file = ""):
-    with dpg.window(label = "JSON Editor", width = 400, height = 1000):
+    with dpg.window(label = "JSON Editor", width = 600, height = 1000):
         data = {}
         if file != "":
             data = readJSON(file)
@@ -379,59 +379,45 @@ def JSONEditor(file = ""):
             data = readJSON("test.json")
         JSONRenderer(data)
 
-def JSONRenderer(data, indention = 0):
+def JSONRenderer(data, indention = 0, name = ""):
     indents = ""
     for x in range(indention):
         indents = indents + "\t"
+    if type(data) == list:
+        newData = {}
+        key = 0
+        for value in data:
+            newData[str(key)] = value
+            key = key + 1
+        data = newData
+    with dpg.group(horizontal = True):
+        dpg.add_button(label = " + ")
+        dpg.add_text(indents)
+        dpg.add_button(label = "Add Value", tag = name + ".AddValue")
     for key, value in data.items():
-        with dpg.group(horizontal = True):
+        tag = name + "." + key
+        with dpg.group(horizontal = True, tag = tag):
+            dpg.add_button(label = " X ")
             dpg.add_text(indents)
             if type(value) == dict:
                 with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, indention + 1)
+                    JSONRenderer(value, indention + 1, tag)
             elif type(value) == list:
                 with dpg.collapsing_header(label = key):
-                    JSONListRenderer(value, indention + 1)
+                    JSONRenderer(value, indention + 1, tag)
             elif type(value) == int:
                 dpg.add_text(key)
-                dpg.add_drag_int(default_value = value)
+                dpg.add_drag_int(default_value = value, tag = tag + ".Value")
             elif type(value) == float:
                 dpg.add_text(key)
-                dpg.add_drag_float(default_value = value)
+                dpg.add_drag_float(default_value = value, tag = tag + ".Value")
             elif type(value) == str:
                 dpg.add_text(key)
-                dpg.add_input_text(default_value = value)
+                dpg.add_input_text(default_value = value, tag = tag + ".Value")
             elif type(value) == bool:
                 dpg.add_text(key)
-                dpg.add_checkbox(default_value = value)
+                dpg.add_checkbox(default_value = value, tag = tag + ".Value")
 
-def JSONListRenderer(data, indention = 0):
-    indents = ""
-    for x in range(indention):
-        indents = indents + "\t"
-    key = 0
-    for value in data:
-        with dpg.group(horizontal = True):
-            dpg.add_text(indents)
-            if type(value) == dict:
-                with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, indention + 1)
-            elif type(value) == list:
-                with dpg.collapsing_header(label = key):
-                    JSONListRenderer(value, indention + 1)
-            elif type(value) == int:
-                dpg.add_text(key)
-                dpg.add_drag_int(default_value = value)
-            elif type(value) == float:
-                dpg.add_text(key)
-                dpg.add_drag_float(default_value = value)
-            elif type(value) == str:
-                dpg.add_text(key)
-                dpg.add_input_text(default_value = value)
-            elif type(value) == bool:
-                dpg.add_text(key)
-                dpg.add_checkbox(default_value = value)
-        key = key + 1
 ##################
 # Texture Editor #
 ##################

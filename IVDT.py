@@ -2,7 +2,7 @@
 # Immersive Vehicles Development Tookit #
 #########################################
 
-# Developers: Aunuli Mansfield (Moonspire)
+# Developers: Aunuli Mansfield
 # Debugging help from: Lemmy
 # IV help from: Laura
 # Run python file with Python 3
@@ -142,8 +142,6 @@ import ctypes
 import numpy as np
 from PIL import Image
 
-ctypes.windll.shcore.SetProcessDpiAwareness(2)
-
 ####################################
 # Get OS and download dependancies #
 ####################################
@@ -159,7 +157,7 @@ elif platform == "darwin":
 elif platform == "win32":
     subprocess.check_call([sys.executable, '-m', 'ensurepip', '--default-pip'])
 subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'pip'])
-subprocess.check_call([sys.executable, '-m', 'pip', 'install', 'dearpygui'])
+subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'dearpygui'])
 
 ##################
 # Program Memory #
@@ -188,6 +186,7 @@ def main():
             with dpg.menu_bar():
                 with dpg.menu(label = "Experimental"):
                     dpg.add_menu_item(label = "Texture Maker", callback = lambda s, a, u : textureEditor())
+                    dpg.add_menu_item(label = "JSON Editor", callback = lambda s, a, u: JSONEditor())
                     dpg.add_menu_item(label = "DearPyGui Demo", callback = show_demo)
         dpg.add_text("Immersive Vehicles Development Toolkit - " + version)
         recent = readJSON("recent")
@@ -367,6 +366,72 @@ def fontBrowser(fontName, projectUWID, root, tab):
         with dpg.drawlist(width=300, height=300):
             dpg.draw_image(texture_id, (0, 0), (300, 300), uv_min=(0, 0), uv_max=(1, 1))
 
+###############
+# JSON Editor #
+###############
+
+def JSONEditor(file = ""):
+    with dpg.window(label = "JSON Editor", width = 400, height = 1000):
+        data = {}
+        if file != "":
+            data = readJSON(file)
+        else:
+            data = readJSON("test.json")
+        JSONRenderer(data)
+
+def JSONRenderer(data, indention = 0):
+    indents = ""
+    for x in range(indention):
+        indents = indents + "\t"
+    for key, value in data.items():
+        with dpg.group(horizontal = True):
+            dpg.add_text(indents)
+            if type(value) == dict:
+                with dpg.collapsing_header(label = key):
+                    JSONRenderer(value, indention + 1)
+            elif type(value) == list:
+                with dpg.collapsing_header(label = key):
+                    JSONListRenderer(value, indention + 1)
+            elif type(value) == int:
+                dpg.add_text(key)
+                dpg.add_drag_int(default_value = value)
+            elif type(value) == float:
+                dpg.add_text(key)
+                dpg.add_drag_float(default_value = value)
+            elif type(value) == str:
+                dpg.add_text(key)
+                dpg.add_input_text(default_value = value)
+            elif type(value) == bool:
+                dpg.add_text(key)
+                dpg.add_checkbox(default_value = value)
+
+def JSONListRenderer(data, indention = 0):
+    indents = ""
+    for x in range(indention):
+        indents = indents + "\t"
+    key = 0
+    for value in data:
+        with dpg.group(horizontal = True):
+            dpg.add_text(indents)
+            if type(value) == dict:
+                with dpg.collapsing_header(label = key):
+                    JSONRenderer(value, indention + 1)
+            elif type(value) == list:
+                with dpg.collapsing_header(label = key):
+                    JSONListRenderer(value, indention + 1)
+            elif type(value) == int:
+                dpg.add_text(key)
+                dpg.add_drag_int(default_value = value)
+            elif type(value) == float:
+                dpg.add_text(key)
+                dpg.add_drag_float(default_value = value)
+            elif type(value) == str:
+                dpg.add_text(key)
+                dpg.add_input_text(default_value = value)
+            elif type(value) == bool:
+                dpg.add_text(key)
+                dpg.add_checkbox(default_value = value)
+        key = key + 1
 ##################
 # Texture Editor #
 ##################

@@ -6,3 +6,8 @@ Features:
 - Creative Tab Managment
 - Adding Fonts
 - In Dev Texture Editor (Currently laggy)
+
+Planned:
+- Adding of all Immersive Vehicles item types
+- Immersive Railroading pack converter
+- 3D model viewer (Might add simple editing functions down the road)

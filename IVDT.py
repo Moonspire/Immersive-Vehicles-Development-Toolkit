@@ -165,7 +165,7 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'dea
 # Program Memory #
 ##################
 
-programData = {"uwids":[],"recent":[],"jsons":[]}
+programData = {"uwids":[],"recent":[],"jsons":{}}
 
 #############################
 # Import Downloaded Content #
@@ -372,20 +372,17 @@ def fontBrowser(fontName, projectUWID, root, tab):
 # JSON Editor #
 ###############
 
-def JSONEditor(uwid = 1, file = ""):
+def JSONEditor(uwid = 1, file = "test.json"):
     with dpg.window(label = "JSON Editor", width = 600, height = 1000, tag = "JSON_Editor"):
         data = {}
-        if file != "":
-            data = readJSON(file)
-        else:
-            data = readJSON("test.json")
+        data = readJSON(file)
         global programData
-        programData["jsons"].append(data)
+        programData["jsons"][file] = data
         datIndex = len(programData["jsons"]) - 1
         with dpg.group(tag = str(uwid) + ".renderedData"):
-            JSONRenderer(data, uwid, datIndex)
+            JSONRenderer(data, file, uwid, datIndex)
 
-def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
+def JSONRenderer(data, file, uwid, datIndex, indention = 0, name = ""):
     print(name)
     indents = ""
     for x in range(indention):
@@ -398,9 +395,9 @@ def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
             key = key + 1
         data = newData
     with dpg.group(horizontal = True):
-        dpg.add_button(label = " + ", callback = lambda s, a, u : addJSONVal(name, data))
+        dpg.add_button(label = " + ", callback = lambda s, a, u : addJSONVal(name, file))
         dpg.add_text(indents)
-        dpg.add_button(label = "Add Value", callback = lambda s, a, u : addJSONVal(name, data), width = -10)
+        dpg.add_button(label = "Add Value", callback = lambda s, a, u : addJSONVal(name, file), width = -10)
     for key, value in data.items():
         tag = name + "." + key
         keysPath = tag.split(".")
@@ -411,10 +408,10 @@ def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
             dpg.add_text(indents)
             if type(value) == dict:
                 with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, uwid, datIndex, indention + 1, tag)
+                    JSONRenderer(value, file, uwid, datIndex, indention + 1, tag)
             elif type(value) == list:
                 with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, uwid, datIndex, indention + 1, tag)
+                    JSONRenderer(value, file, uwid, datIndex, indention + 1, tag)
             elif type(value) == int:
                 dpg.add_text(key)
                 dpg.add_drag_int(default_value = value, tag = tag + ".value", width = -10, callback = lambda s, a, u : updateJSONData(keysPath, datIndex))
@@ -441,16 +438,16 @@ def updateJSONData(keys, datIndex):
     exec(execLine)
     
 
-def addJSONVal(name, data):
+def addJSONVal(name, file):
     with dpg.window(label = "Add JSON Value", width = 300, height = 200):
         tabs = ["Numeric", "True / False", "Text", "File Path", "3D Position", "2D Position", "List", "Named List"]
         with dpg.group(horizontal = True):
             dpg.add_text("Type")
-            dpg.add_combo(tabs, tag = name + ".Value_Adder.type", width = -1, callback = lambda s, a, u : updateJSONValContent(a, name + ".Value_Adder", data))
+            dpg.add_combo(tabs, tag = name + ".Value_Adder.type", width = -1, callback = lambda s, a, u : updateJSONValContent(a, name + ".Value_Adder", file))
         with dpg.group(tag = name + ".Value_Adder"):
             dpg.add_text("Please select a type above")
 
-def updateJSONValContent(type, tag, data, hasName = True):
+def updateJSONValContent(type, tag, file, hasName = True):
     dpg.delete_item(tag, children_only=True)
     with dpg.group(parent = tag):
         if hasName:
@@ -499,15 +496,14 @@ def updateJSONValContent(type, tag, data, hasName = True):
             with dpg.group(horizontal = True):
                 dpg.add_text("Has Decimal Point")
                 dpg.add_checkbox(default_value = True)
-        dpg.add_button(label = "Save Value", callback = lambda s, a, u : addValToJSON(tag, data))
+        dpg.add_button(label = "Save Value", callback = lambda s, a, u : addValToJSON(tag, file))
 
-def addValToJSON(datTag, data):
+def addValToJSON(datTag, file):
     value = 0
     tag = datTag.replace(".Value_Adder", "")
     keysPath = tag.split(".")
     type = dpg.get_value(datTag + ".type")
     name = dpg.get_value(datTag + ".name")
-    data.append(name)
     if type == "Numeric":
         value = dpg.get_value(datTag + ".value")
         isInt = not dpg.get_value(datTag + ".isBool")
@@ -529,19 +525,31 @@ def addValToJSON(datTag, data):
         value = []
     elif type == "Named List":
         value = {}
-    print(recursiveDictEdit(keysPath, 
-    print(data)
+    global programData
+    programData["jsons"][file] = recursiveDictEdit(keysPath, programData["jsons"][file], name, value)
+    print(programData["jsons"][file])
 
 def recursiveDictEdit(keys, dict, key, value):
-    nestDict = dict[keys[0]]
     keys.pop(0)
-    retDict = {}
-    if len(keys) > 1:
-        retDict = recursiveDictEdit(keys, nestDict, key, value)
+    isList = isinstance(dict, list)
+    print(isList)
+    if len(keys) == 0:
+        if isList:
+            dict.append(value)
+        else:
+            dict[key] = value
     else:
-        nestDict[key] = value
-        retDict = nestDict
-    return retDict
+        localKey = keys[0]
+        nestDict = {}
+        if isList:
+            nestDict = dict[int(localKey)]
+            dict.pop(int(localKey))
+            dict.insert(int(localKey), recursiveDictEdit(keys, nestDict, key, value))
+        else:
+            nestDict = dict[localKey]
+            dict[localKey] = recursiveDictEdit(keys, nestDict, key, value)
+    print(isList)
+    return dict
 
 ##################
 # Texture Editor #

@@ -5,7 +5,7 @@ Features:
 - Pack Creation
 - Creative Tab Managment
 - Adding Fonts
-- In Dev Texture Editor (Currently laggy)
+- In Dev Texture Editor
 
 Planned:
 - Adding of all Immersive Vehicles item types

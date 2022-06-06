@@ -386,6 +386,7 @@ def JSONEditor(uwid = 1, file = ""):
             JSONRenderer(data, uwid, datIndex)
 
 def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
+    print(name)
     indents = ""
     for x in range(indention):
         indents = indents + "\t"
@@ -397,9 +398,9 @@ def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
             key = key + 1
         data = newData
     with dpg.group(horizontal = True):
-        dpg.add_button(label = " + ", callback = lambda s, a, u : addJSONVal(name, datIndex))
+        dpg.add_button(label = " + ", callback = lambda s, a, u : addJSONVal(name, data))
         dpg.add_text(indents)
-        dpg.add_button(label = "Add Value", callback = lambda s, a, u : addJSONVal(name, datIndex), width = -10)
+        dpg.add_button(label = "Add Value", callback = lambda s, a, u : addJSONVal(name, data), width = -10)
     for key, value in data.items():
         tag = name + "." + key
         keysPath = tag.split(".")
@@ -440,16 +441,16 @@ def updateJSONData(keys, datIndex):
     exec(execLine)
     
 
-def addJSONVal(name, datIndex):
+def addJSONVal(name, data):
     with dpg.window(label = "Add JSON Value", width = 300, height = 200):
-        tabs = ["Numeric", "True / False", "Text", "File Path", "3D Position", "2D Position", "List", "Map"]
+        tabs = ["Numeric", "True / False", "Text", "File Path", "3D Position", "2D Position", "List", "Named List"]
         with dpg.group(horizontal = True):
             dpg.add_text("Type")
-            dpg.add_combo(tabs, tag = name + ".Value_Adder.type", width = -1, callback = lambda s, a, u : updateJSONValContent(a, data, name + ".Value_Adder"))
+            dpg.add_combo(tabs, tag = name + ".Value_Adder.type", width = -1, callback = lambda s, a, u : updateJSONValContent(a, name + ".Value_Adder", data))
         with dpg.group(tag = name + ".Value_Adder"):
             dpg.add_text("Please select a type above")
 
-def updateJSONValContent(type, data, tag, hasName = True):
+def updateJSONValContent(type, tag, data, hasName = True):
     dpg.delete_item(tag, children_only=True)
     with dpg.group(parent = tag):
         if hasName:
@@ -501,12 +502,19 @@ def updateJSONValContent(type, data, tag, hasName = True):
         dpg.add_button(label = "Save Value", callback = lambda s, a, u : addValToJSON(tag, data))
 
 def addValToJSON(datTag, data):
+    value = 0
     tag = datTag.replace(".Value_Adder", "")
+    keysPath = tag.split(".")
     type = dpg.get_value(datTag + ".type")
     name = dpg.get_value(datTag + ".name")
+    data.append(name)
     if type == "Numeric":
         value = dpg.get_value(datTag + ".value")
-        isBool = not dpg.get_value(datTag + ".isBool")
+        isInt = not dpg.get_value(datTag + ".isBool")
+        if isInt:
+            value = int(value)
+        else:
+            value = float(value)
     elif type == "True / False":
         value = dpg.get_value(datTag + ".value")
     elif type == "Text":
@@ -518,9 +526,22 @@ def addValToJSON(datTag, data):
     elif type == "2D Position":
         value = [dpg.get_value(datTag + ".x"), dpg.get_value(datTag + ".y")]
     elif type == "List":
-        print("List")
-    elif type == "Map":
-        print("Map")
+        value = []
+    elif type == "Named List":
+        value = {}
+    print(recursiveDictEdit(keysPath, 
+    print(data)
+
+def recursiveDictEdit(keys, dict, key, value):
+    nestDict = dict[keys[0]]
+    keys.pop(0)
+    retDict = {}
+    if len(keys) > 1:
+        retDict = recursiveDictEdit(keys, nestDict, key, value)
+    else:
+        nestDict[key] = value
+        retDict = nestDict
+    return retDict
 
 ##################
 # Texture Editor #

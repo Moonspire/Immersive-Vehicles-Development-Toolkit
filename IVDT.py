@@ -139,8 +139,10 @@ import webbrowser
 import pathlib
 import random
 import ctypes
+import operator
 import numpy as np
 from PIL import Image
+from functools import reduce
 
 ####################################
 # Get OS and download dependancies #
@@ -163,7 +165,7 @@ subprocess.check_call([sys.executable, '-m', 'pip', 'install', '--upgrade', 'dea
 # Program Memory #
 ##################
 
-programData = {"uwids":[],"recent":[]}
+programData = {"uwids":[],"recent":[],"jsons":[]}
 
 #############################
 # Import Downloaded Content #
@@ -370,16 +372,20 @@ def fontBrowser(fontName, projectUWID, root, tab):
 # JSON Editor #
 ###############
 
-def JSONEditor(file = ""):
-    with dpg.window(label = "JSON Editor", width = 600, height = 1000):
+def JSONEditor(uwid = 1, file = ""):
+    with dpg.window(label = "JSON Editor", width = 600, height = 1000, tag = "JSON_Editor"):
         data = {}
         if file != "":
             data = readJSON(file)
         else:
             data = readJSON("test.json")
-        JSONRenderer(data)
+        global programData
+        programData["jsons"].append(data)
+        datIndex = len(programData["jsons"]) - 1
+        with dpg.group(tag = str(uwid) + ".renderedData"):
+            JSONRenderer(data, uwid, datIndex)
 
-def JSONRenderer(data, indention = 0, name = ""):
+def JSONRenderer(data, uwid, datIndex, indention = 0, name = ""):
     indents = ""
     for x in range(indention):
         indents = indents + "\t"
@@ -391,32 +397,130 @@ def JSONRenderer(data, indention = 0, name = ""):
             key = key + 1
         data = newData
     with dpg.group(horizontal = True):
-        dpg.add_button(label = " + ")
+        dpg.add_button(label = " + ", callback = lambda s, a, u : addJSONVal(name, datIndex))
         dpg.add_text(indents)
-        dpg.add_button(label = "Add Value", tag = name + ".AddValue")
+        dpg.add_button(label = "Add Value", callback = lambda s, a, u : addJSONVal(name, datIndex), width = -10)
     for key, value in data.items():
         tag = name + "." + key
+        keysPath = tag.split(".")
+        keysPath.pop(0)
+        print(keysPath)
         with dpg.group(horizontal = True, tag = tag):
-            dpg.add_button(label = " X ")
+            dpg.add_button(label = " X ", callback = lambda s, a, u : dpg.delete_item(tag))
             dpg.add_text(indents)
             if type(value) == dict:
                 with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, indention + 1, tag)
+                    JSONRenderer(value, uwid, datIndex, indention + 1, tag)
             elif type(value) == list:
                 with dpg.collapsing_header(label = key):
-                    JSONRenderer(value, indention + 1, tag)
+                    JSONRenderer(value, uwid, datIndex, indention + 1, tag)
             elif type(value) == int:
                 dpg.add_text(key)
-                dpg.add_drag_int(default_value = value, tag = tag + ".Value")
+                dpg.add_drag_int(default_value = value, tag = tag + ".value", width = -10, callback = lambda s, a, u : updateJSONData(keysPath, datIndex))
             elif type(value) == float:
                 dpg.add_text(key)
-                dpg.add_drag_float(default_value = value, tag = tag + ".Value")
+                dpg.add_drag_float(default_value = value, tag = tag + ".value", width = -10, callback = lambda s, a, u : updateJSONData(keysPath, datIndex))
             elif type(value) == str:
                 dpg.add_text(key)
-                dpg.add_input_text(default_value = value, tag = tag + ".Value")
+                dpg.add_input_text(default_value = value, tag = tag + ".value", width = -10)
             elif type(value) == bool:
                 dpg.add_text(key)
-                dpg.add_checkbox(default_value = value, tag = tag + ".Value")
+                dpg.add_checkbox(default_value = value, tag = tag + ".value")
+
+def updateJSONData(keys, datIndex):
+    global programData
+    print(keys)
+    execLine = "print(programData['jsons'][datIndex]"
+    for key in keys:
+        if key.isdecimal():
+            execLine = execLine + "[" + key + "]"
+        else:
+            execLine = execLine + "['" + key + "']"
+    execLine = execLine + ")"
+    exec(execLine)
+    
+
+def addJSONVal(name, datIndex):
+    with dpg.window(label = "Add JSON Value", width = 300, height = 200):
+        tabs = ["Numeric", "True / False", "Text", "File Path", "3D Position", "2D Position", "List", "Map"]
+        with dpg.group(horizontal = True):
+            dpg.add_text("Type")
+            dpg.add_combo(tabs, tag = name + ".Value_Adder.type", width = -1, callback = lambda s, a, u : updateJSONValContent(a, data, name + ".Value_Adder"))
+        with dpg.group(tag = name + ".Value_Adder"):
+            dpg.add_text("Please select a type above")
+
+def updateJSONValContent(type, data, tag, hasName = True):
+    dpg.delete_item(tag, children_only=True)
+    with dpg.group(parent = tag):
+        if hasName:
+            with dpg.group(horizontal = True):
+                dpg.add_text("Name")
+                dpg.add_input_text(tag = tag + ".name", width = -10)
+        if type == "Numeric":
+            with dpg.group(horizontal = True):
+                dpg.add_text("Value")
+                dpg.add_input_text(tag = tag + ".value", width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Has Decimal Point")
+                dpg.add_checkbox(tag = tag + ".isBool", default_value = True)
+        elif type == "True / False":
+            with dpg.group(horizontal = True):
+                dpg.add_text("Value")
+                dpg.add_checkbox(tag = tag + ".value", default_value = True)
+        elif type == "Text":
+            with dpg.group(horizontal = True):
+                dpg.add_text("Value")
+                dpg.add_input_text(tag = tag + ".value", width = -10)
+        elif type == "File Path":
+            with dpg.group(horizontal = True):
+                dpg.add_text("Value")
+                dpg.add_button(tag = tag + ".value", label = "File", width = -10)
+        elif type == "3D Position":
+            with dpg.group(horizontal = True):
+                dpg.add_text("X")
+                dpg.add_input_text(width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Y")
+                dpg.add_input_text(width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Z")
+                dpg.add_input_text(width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Has Decimal Point")
+                dpg.add_checkbox(default_value = True)
+        elif type == "2D Position":
+            with dpg.group(horizontal = True):
+                dpg.add_text("X")
+                dpg.add_input_text(width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Y")
+                dpg.add_input_text(width = -10)
+            with dpg.group(horizontal = True):
+                dpg.add_text("Has Decimal Point")
+                dpg.add_checkbox(default_value = True)
+        dpg.add_button(label = "Save Value", callback = lambda s, a, u : addValToJSON(tag, data))
+
+def addValToJSON(datTag, data):
+    tag = datTag.replace(".Value_Adder", "")
+    type = dpg.get_value(datTag + ".type")
+    name = dpg.get_value(datTag + ".name")
+    if type == "Numeric":
+        value = dpg.get_value(datTag + ".value")
+        isBool = not dpg.get_value(datTag + ".isBool")
+    elif type == "True / False":
+        value = dpg.get_value(datTag + ".value")
+    elif type == "Text":
+        value = dpg.get_value(datTag + ".value")
+    elif type == "File Path":
+        value = dpg.get_value(datTag + ".value")
+    elif type == "3D Position":
+        value = [dpg.get_value(datTag + ".x"), dpg.get_value(datTag + ".y"), dpg.get_value(datTag + ".z")]
+    elif type == "2D Position":
+        value = [dpg.get_value(datTag + ".x"), dpg.get_value(datTag + ".y")]
+    elif type == "List":
+        print("List")
+    elif type == "Map":
+        print("Map")
 
 ##################
 # Texture Editor #
@@ -424,24 +528,20 @@ def JSONRenderer(data, indention = 0, name = ""):
 
 def textureEditor(xRes = 128, yRes = 128):
     with dpg.window(label = "Texture Maker", width = 1020, height = 820):
-        global programData
-        programData["lastMousePos"] = [-1, -1]
         with dpg.menu_bar():
             with dpg.menu(label = "File"):
                 dpg.add_menu_item(label = "Save Image")
         with dpg.group():
             dpg.add_text("Primary Color")
-            dpg.add_color_picker((0, 0, 0, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
+            dpg.add_color_picker((255, 255, 255, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker")
             dpg.add_button(label = "Swap Primary & Secondary", callback = lambda s, a, u: swapColors())
             dpg.add_text("Secondary Color")
-            dpg.add_color_picker((0, 0, 0, 0), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
-            dpg.add_drag_int(label="Brush Size", default_value = 1, width = 100, tag = "texEdit_brushSize")
+            dpg.add_color_picker((0, 0, 0, 255), no_side_preview=True, alpha_bar=True, width=200, callback = colorChanged, tag = "colorPicker2")
         with dpg.group(tag = "textureViewPort"):
-            channels = 4
-            data = imageScaler(createTextureData(xRes, yRes), [xRes, yRes], [800, 800])
+            width, height, channels, data = createTextureData(xRes, yRes)
             with dpg.texture_registry():
-                dpg.add_static_texture(800, 800, createTransparency(), tag = "transparency")
-                dpg.add_dynamic_texture(800, 800, data, tag = "testTexture")
+                dpg.add_static_texture(51, 51, createTransparency(), tag = "transparency")
+                dpg.add_dynamic_texture(width, height, data, tag = "testTexture")
             with dpg.group(tag = "imageFrame"):
                 with dpg.drawlist(width=800, height=800):
                     dpg.draw_image("transparency", (0, 0), (800, 800), uv_min=(0, 0), uv_max=(1, 1))
@@ -449,7 +549,7 @@ def textureEditor(xRes = 128, yRes = 128):
                 dpg.set_item_pos("imageFrame", (220, 19))
                 print(dpg.get_item_pos("textureViewPort"))
                 with dpg.item_handler_registry(tag = "texEdit"):
-                    dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [xRes, yRes]))
+                    dpg.add_item_hover_handler(callback = lambda s, a, u : textureMouse(data, [width, height]))
                 dpg.bind_item_handler_registry("imageFrame", "texEdit")
 
 def swapColors():
@@ -461,7 +561,7 @@ def swapColors():
 def colorChanged(s, a, u):
     print(a)
 
-def createTransparency(resolution = [800, 800]):
+def createTransparency():
     textureData = []
     for i in range(51*51):
         if (i % 2) == 0:
@@ -473,7 +573,7 @@ def createTransparency(resolution = [800, 800]):
             textureData.append(0.6)
             textureData.append(0.6)
         textureData.append(1)
-    return imageScaler(textureData, [51, 51], resolution)
+    return textureData
 
 def textureMouse(data, resolution = [128, 128]):
     if dpg.is_mouse_button_down(0):
@@ -488,7 +588,7 @@ def textureDraw(data, button = "L", resolution = [128, 128]):
     global programData
     lastPos = programData["lastMousePos"]
     pos = dpg.get_mouse_pos()
-    pos = [int(pos[0]-220), int(pos[1])]
+    pos = [int((pos[0]-220)*(resolution[0]/800)), int(pos[1]*(resolution[1]/800))]
     programData["lastMousePos"] = pos
     color = []
     colorSelected = "colorPicker"
@@ -509,38 +609,15 @@ def textureDraw(data, button = "L", resolution = [128, 128]):
         print(slope, "Pos:", pos, "Last Pos:", lastPos)
         for x in areaX:
             y = int((x * slope) - (lastPos[0] * slope) + lastPos[1])
-            data = drawWithBrush([x, y], data, color, resolution, dpg.get_value("texEdit_brushSize"))
+            data = editPixel([x, y], resolution, data, color)
         for y in areaY:
-            x = pos[0]
             if slope != 0:
                 x = int((y + (lastPos[0] * slope) - lastPos[1]) / slope)
-            data = drawWithBrush([x, y], data, color, resolution, dpg.get_value("texEdit_brushSize"))
-    data = drawWithBrush(pos, data, color, resolution, dpg.get_value("texEdit_brushSize"))
+            else:
+                x = pos[0]
+            data = editPixel([x, y], resolution, data, color)
+    data = editPixel(pos, resolution, data, color)
     dpg.set_value("testTexture", data)
-
-def getPixel(pos, resolution, data):
-    r = ((pos[1]*resolution[1])+pos[0])*4
-    g = r + 1
-    b = g + 1
-    a = b + 1
-    return [data[r], data[g], data[b], data[a]]
-
-def drawWithBrush(pos, data, rgba = [0, 0, 0, 0], resolution = [128, 128], brushSize = 1):
-    scale = [800 / resolution[0], 800 / resolution[1]]
-    fillRange = [
-        [
-            int((int(pos[0] / scale[0]) - brushSize + 1) * scale[0]),
-            int((int(pos[0] / scale[0]) + brushSize) * scale[0])
-        ],
-        [
-            int((int(pos[1] / scale[1]) - brushSize + 1) * scale[1]),
-            int((int(pos[1] / scale[1]) + brushSize) * scale[1])
-        ]
-    ]
-    for x in range(*fillRange[0]):
-        for y in range(*fillRange[1]):
-            data = editPixel([x, y], [800, 800], data, rgba)
-    return data
 
 def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
     r = ((pos[1]*resolution[1])+pos[0])*4
@@ -556,11 +633,12 @@ def editPixel(pos, resolution, data, rgba = [0,0,0,0]):
 def createTextureData(xRes = 128, yRes = 128):
     textureData = []
     for i in range(xRes*yRes):
+        textureData.append(1)
+        textureData.append(1)
+        textureData.append(1)
         textureData.append(0)
-        textureData.append(0)
-        textureData.append(0)
-        textureData.append(0)
-    return textureData
+    return xRes, yRes, 4, textureData
+
 
 #########
 # Input #
